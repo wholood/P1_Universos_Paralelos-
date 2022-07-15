@@ -3,118 +3,150 @@
 using namespace std;
 
 int main (){
-    int ubiM, senM0, senM1, senM2; //Ubicacion inicial de los 3 marios y Sentido X Y de cada mario  
-    int sxm0, sxm1, sxm2, sym0, sym1, sym2; //sentido x y Y de mario y sus copias 1 y 2
-    int ubix, ubiy, xm1, xm2, ym1, ym2; //Ubicación x y Y de la copia 1 y 2
+    int sxm0, sxc1, sxc2, sym0, syc1, syc2; //sentido x y Y de mario y sus copias 1 y 2
+    int ubix, ubiy, xc1, xc2, yc1, yc2; //Ubicacion inicial de los 3 marios y Sentido X Y de cada mario
 
-    int numS, datS1, datS2, datS3; //Numero de scuttlebugs (Max3) y sus datos (x y vida)
-    int xs1, xs2, xs3, ys1, ys2, ys3, vidas1, vidas2, vidas3;//Desgloce de datos
+    int numS, xs1, xs2, xs3, ys1, ys2, ys3, vidas1, vidas2, vidas3; //Numero de scuttlebugs (Max3) y sus datos (x y vida)
 
-    int estrella, beneficio; //Ubicación x y de la estrella y el contador de beneficio
-    int Xestrella, Yestrella; //Desgloce de coordenadas
+    int Xestrella, Yestrella, beneficio; //Ubicación x y de la estrella y el contador de beneficio
 
-    int m, movimiento, mx, my, mariox, marioy; 
+    int m, movx, movy, mariox, marioy; 
     //Numero de movimientos que tendrán, el movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
-
+    
+    bool error=false;
     int aux;
 
-    //Lectura de variables
-    cin>>ubiM;
-    cin>>senM0;
-    //**********Validacion del sentido
+//--------------------------------------------
+//----------Lectura de variables--------------
+//--------------------------------------------
 
-    /*cin>>senM1;
-    cin>>senM2;
+    cin>>ubix; cin>>ubiy;//ubicación inicial
+    mariox=ubix; marioy=ubiy; //clonamos la ubicación para no perder la entrada
 
-    cin>>numS;
+    cin>>sxm0; cin>>sym0;//sentido mario
+    cin>>sxc1; cin>>syc1;//sentido copia 1
+    cin>>sxc2; cin>>syc2;//sentido copia 2
+    
+    //Validamos los sentidos
+    if(sxm0!=1 || sxm0!=-1 || sym0!=1 || sym0!=-1){ //mario
+        error=true;
+    }
+    if(sxc1!=1 || sxc1!=-1 || syc1!=1 || syc1!=-1){ //copia 1
+        error=true;
+    }
+    if(sxc2!=1 || sxc2!=-1 || syc2!=1 || syc2!=-1){ //copia 2
+        error=true;
+    }
+    
+    cin>>numS; //numero de scuttlebugs
 
     switch (numS){ //Dependiendo del numero de scuttlebugs habrá lectura de sus datos
         case 1: 
-            cin>>datS1;
+            cin>>xs1; cin>>ys1; cin>>vidas1;
             break;
         case 2:
-            cin>>datS1;
-            cin>>datS2;
+            cin>>xs1; cin>>ys1; cin>>vidas1;
+            cin>>xs2; cin>>ys2; cin>>vidas2;
             break;
         case 3:
-            cin>>datS1;
-            cin>>datS2;
-            cin>>datS3;
+            cin>>xs1; cin>>ys1; cin>>vidas1;
+            cin>>xs2; cin>>ys2; cin>>vidas2;
+            cin>>xs3; cin>>ys3; cin>>vidas3;
             break;
-        default: //Si no se introduce un numero entre 1 y 3 finalizará el programa.
-            return 0;
+        default: //Si no se introduce un numero entre 1 y 3 tendremos un error
+            error=true;
     }
 
-    cin>>estrella;
+    cin>>Xestrella; cin>>Yestrella; //posicion de la estrella
     cin>>m;
-*/
+
+    //PRUEBA DE SALIDAS
+    /*cout<<ubix<<","<<ubiy<<endl;
+    cout<<mariox<<","<<marioy<<endl;
+    cout<<sxm0<<","<<sym0<<endl;
+    cout<<sxc1<<","<<syc1<<endl;
+    cout<<sxc2<<","<<syc2<<endl;
+    cout<<numS<<endl;
+    cout<<xs1<<","<<ys1<<","<<vidas1<<endl;
+    cout<<xs2<<","<<ys2<<","<<vidas2<<endl;
+    cout<<xs3<<","<<ys3<<","<<vidas3<<endl;
+    cout<<"error"<<error<<endl;
+    cout<<Xestrella<<","<<Yestrella<<endl;
+    cout<<m<<endl;*/
+
+
+/*
+//--------------------------------------------
+//------------Bucle de movimiento-------------
+//--------------------------------------------
     for (int i = 0; i < m; i++){ 
-        cin>>movimiento;
-        //**********Desglozamos Mov en mx y my
+        cin>>movx; cin>>movy;
 
     //Movemos al mario original.
 
         if(sxm0==-1){ //Validamos que el sentido de mario en x sea -1
-            ubix+=mx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+            mariox+=movx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
         }
         else{//Si no es -1
-            ubix+=mx;//Sumamos
+            mariox+=movx;//Sumamos
         }
 
         if(sym0==-1){ //validamos que el sentido de mario en y sea -1
-            ubiy+=my*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+            marioy+=movy*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
         }
         else{//si no es -1
-            ubiy+=my; //sumamos
+            marioy+=movy; //sumamos
         }
+    
+    //--------------------------------------------
+    //------Cambio de sentido de las copias-------
+    //--------------------------------------------
+        if(mariox<0){ //Cuando x es menor que 0 Mario puede estar en el 2do o 3er cuadrante
 
-
-    //Cambio de sentido de las copias
-        if(ubix<0){ //Cuando x es menor que 0 Mario puede estar en el 2do o 3er cuadrante
-            if(ubiy>=0){//Validamos que el mario original haya quedado en el 2do cuadrante
-                sxm1*=(-1); //Cambiamos solo el sentido en X de sus copias
-                sxm2*=(-1);  
+            if(marioy>=0){//Validamos que el mario original haya quedado en el 2do cuadrante
+                sxc1*=(-1); //Cambiamos solo el sentido en X de sus copias
+                sxc2*=(-1);  
             }
             else{ //ym0<0 Validamos que el mario original haya quedado en el 3er cuadrante
-                sym1*=(-1); //Cambiamos solo el sentido en y de sus copias
-                sym2*=(-1); 
+                syc1*=(-1); //Cambiamos solo el sentido en y de sus copias
+                syc2*=(-1); 
             }
         }
-        else if(ubix>=0 && ubiy<0){ //Validamos que el mario original haya quedado en el 3er cuadrante
-            sxm1*=(-1); //Cambiamos solo el sentido en X de sus copias
-            sxm2*=(-1);
-            sym1*=(-1); //Cambiamos solo el sentido en y de sus copias
-            sym2*=(-1);
+        else if(mariox>=0 && marioy<0){ //Validamos que el mario original haya quedado en el 3er cuadrante
+            sxc1*=(-1); //Cambiamos solo el sentido en X de sus copias
+            sxc2*=(-1);
+            syc1*=(-1); //Cambiamos solo el sentido en y de sus copias
+            syc2*=(-1);
         }
 
     //Movimiento de la copia 1
-        if(sxm1==-1){ //Validamos que el sentido de la copia 1 en x sea -1
-            xm1+=mx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+        if(sxc1==-1){ //Validamos que el sentido de la copia 1 en x sea -1
+            xc1+=movx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
         }
         else{//Si no es -1
-            xm1+=mx;//Sumamos
+            xc1+=movx;//Sumamos
         }
 
-        if(sym1==-1){ //validamos que el sentido de la copia 1 en y sea -1
-            ym1+=my*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+        if(syc1==-1){ //validamos que el sentido de la copia 1 en y sea -1
+            yc1+=movy*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
         }
         else{//si no es -1
-            ym1+=my; //sumamos
+            yc1+=movy; //sumamos
         }
 
     //Movimiento de la copia 2
-        if(sxm2==-1){ //Validamos que el sentido de la copia 2 en x sea -1
-            xm2+=mx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+        if(sxc2==-1){ //Validamos que el sentido de la copia 2 en x sea -1
+            xc2+=movx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
         }
         else{//Si no es -1
-            xm2+=mx;//Sumamos
+            xc2+=movx;//Sumamos
         }
 
-        if(sym2==-1){ //validamos que el sentido de la copia 2 en y sea -1
-            ym2+=my*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+        if(syc2==-1){ //validamos que el sentido de la copia 2 en y sea -1
+            yc2+=movy*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
         }
         else{//si no es -1
-            ym2+=my; //sumamos
+            yc2+=movy; //sumamos
         }
 
         //Colision con la estrella
@@ -123,6 +155,6 @@ int main (){
         //si beneficio > 0 {beneficio --}
 
 
-    }
+    }*/
     return 0;
 }
