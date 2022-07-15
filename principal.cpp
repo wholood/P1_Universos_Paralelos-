@@ -4,14 +4,16 @@ using namespace std;
 
 int main (){
     int sxm0, sxc1, sxc2, sym0, syc1, syc2; //sentido x y Y de mario y sus copias 1 y 2
-    int ubix, ubiy, xc1, xc2, yc1, yc2; //Ubicacion inicial de los 3 marios y Sentido X Y de cada mario
+    float ubix, ubiy, xc1, xc2, yc1, yc2; //Ubicacion inicial de los 3 marios y Sentido X Y de cada mario
 
-    int numS, xs1, xs2, xs3, ys1, ys2, ys3, vidas1, vidas2, vidas3; //Numero de scuttlebugs (Max3) y sus datos (x y vida)
+    int numS, vidas1, vidas2, vidas3; //Numero de scuttlebugs (Max3) y sus datos (x y vida)
+    float xs1, xs2, xs3, ys1, ys2, ys3; //coordenadas scuttlebugs
 
-    int Xestrella, Yestrella, beneficio; //Ubicación x y de la estrella y el contador de beneficio
+    float Xestrella, Yestrella; //Ubicación x y de la estrella y
+    int beneficio; // el contador de beneficio
 
-    int m, movx, movy, mariox, marioy; 
-    //Numero de movimientos que tendrán, el movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
+    int m; //Numero de movimientos que tendrán
+    float movx, movy, mariox, marioy; //El movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
     
     bool error=false;
     int aux;
@@ -24,8 +26,8 @@ int main (){
     mariox=ubix; marioy=ubiy; //clonamos la ubicación para no perder la entrada
 
     cin>>sxm0; cin>>sym0;//sentido mario
-    cin>>sxc1; cin>>syc1;//sentido copia 1
-    cin>>sxc2; cin>>syc2;//sentido copia 2
+    //cin>>sxc1; cin>>syc1;//sentido copia 1
+    //cin>>sxc2; cin>>syc2;//sentido copia 2
     
     //Validamos los sentidos
     if(sxm0!=1 || sxm0!=-1 || sym0!=1 || sym0!=-1){ //mario
@@ -57,7 +59,7 @@ int main (){
             error=true;
     }
 
-    cin>>Xestrella; cin>>Yestrella; //posicion de la estrella
+    //cin>>Xestrella; cin>>Yestrella; //posicion de la estrella
     cin>>m;
 
     //PRUEBA DE SALIDAS
@@ -75,7 +77,7 @@ int main (){
     cout<<m<<endl;*/
 
 
-/*
+///*
 //--------------------------------------------
 //------------Bucle de movimiento-------------
 //--------------------------------------------
@@ -97,7 +99,38 @@ int main (){
         else{//si no es -1
             marioy+=movy; //sumamos
         }
-    
+
+        //colision mario con scuttlebug
+        if((mariox!=xs1 || marioy!=ys1) && (mariox!=xs2||marioy!=ys2) && (mariox=!xs3||marioy!=ys3)){ //Si no existe colisión con ningun scuttlebug
+            
+        }
+        else{ //Si existió alguna colisión
+            if(beneficio==0){//Si no existe beneficio
+                if(mariox==xs1){ //Si fue con S1
+                    vidas1-=2;
+                }
+                else if (mariox==xs2){ //Si fue con S2
+                    vidas2-=2;
+                }
+                else{
+                    vidas3-=2; //Si fue con S3
+                } 
+            }
+            else{ //Si existe beneficio
+                if(mariox==xs1){ //Si fue con S1
+                    vidas1=0;
+                }
+                else if (mariox==xs2){ //Si fue con S2
+                    vidas2=0;
+                }
+                else{
+                    vidas3=0; //Si fue con S3
+                }  
+            }
+            
+        }
+
+    /*
     //--------------------------------------------
     //------Cambio de sentido de las copias-------
     //--------------------------------------------
@@ -154,7 +187,8 @@ int main (){
 
         //si beneficio > 0 {beneficio --}
 
+*/
+    }
 
-    }*/
     return 0;
 }
