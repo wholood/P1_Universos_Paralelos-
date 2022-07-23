@@ -15,8 +15,7 @@ int main (){
     int m; //Numero de movimientos que tendrán
     float movx, movy, mariox, marioy; //El movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
     
-    bool error=false;
-    int aux;
+    bool coliM=false, coliC1=false, coliC2=false, error=false;
 
 //--------------------------------------------
 //----------Lectura de variables--------------
@@ -45,10 +44,16 @@ int main (){
     switch (numS){ //Dependiendo del numero de scuttlebugs habrá lectura de sus datos
         case 1: 
             cin>>xs1; cin>>ys1; cin>>vidas1;
+            xs2=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
+            vidas2=1000;
+            xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
+            vidas3=1000;
             break;
         case 2:
             cin>>xs1; cin>>ys1; cin>>vidas1;
             cin>>xs2; cin>>ys2; cin>>vidas2;
+            xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
+            vidas3=1000;
             break;
         case 3:
             cin>>xs1; cin>>ys1; cin>>vidas1;
@@ -99,38 +104,6 @@ int main (){
         else{//si no es -1
             marioy+=movy; //sumamos
         }
-
-        //colision mario con scuttlebug
-        if((mariox!=xs1 || marioy!=ys1) && (mariox!=xs2||marioy!=ys2) && (mariox=!xs3||marioy!=ys3)){ //Si no existe colisión con ningun scuttlebug
-            
-        }
-        else{ //Si existió alguna colisión
-            if(beneficio==0){//Si no existe beneficio
-                if(mariox==xs1){ //Si fue con S1
-                    vidas1-=2;
-                }
-                else if (mariox==xs2){ //Si fue con S2
-                    vidas2-=2;
-                }
-                else{
-                    vidas3-=2; //Si fue con S3
-                } 
-            }
-            else{ //Si existe beneficio
-                if(mariox==xs1){ //Si fue con S1
-                    vidas1=0;
-                }
-                else if (mariox==xs2){ //Si fue con S2
-                    vidas2=0;
-                }
-                else{
-                    vidas3=0; //Si fue con S3
-                }  
-            }
-            
-        }
-
-    /*
     //--------------------------------------------
     //------Cambio de sentido de las copias-------
     //--------------------------------------------
@@ -151,7 +124,7 @@ int main (){
             syc1*=(-1); //Cambiamos solo el sentido en y de sus copias
             syc2*=(-1);
         }
-
+    /*
     //Movimiento de la copia 1
         if(sxc1==-1){ //Validamos que el sentido de la copia 1 en x sea -1
             xc1+=movx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
@@ -180,7 +153,113 @@ int main (){
         }
         else{//si no es -1
             yc2+=movy; //sumamos
+        }*/
+    //--------------------------------------------
+    //----------------ColisionMario---------------
+    //--------------------------------------------
+        if ((mariox==xs1 && marioy==ys1) || (mariox==xs2&&marioy==ys2) || (mariox==xs3&&marioy==ys3)){
+            if(beneficio==0){//Si no existe beneficio
+                if(mariox==xs1){ //Si fue con S1
+                    vidas1-=2;
+                }
+                else if (mariox==xs2){ //Si fue con S2
+                    vidas2-=2;
+                }
+                else{
+                    vidas3-=2; //Si fue con S3
+                }
+
+            }
+            else{ //Si existe beneficio
+                if(mariox==xs1){ //Si fue con S1
+                    vidas1=0;
+                }
+                else if (mariox==xs2){ //Si fue con S2
+                    vidas2=0;
+                }
+                else{
+                    vidas3=0; //Si fue con S3
+                }  
+            }
+        //--------------------------------------------
+        //---------Eliminacion de Enemigo-------------
+        //--------------------------------------------
+            if(vidas1==0||vidas2==0||vidas3==0){
+                xc1=mariox; //Sincronización de ubicacicón
+                xc2=mariox;
+                yc1=marioy;
+                yc2=marioy;
+                coliM=true;
+            }
         }
+    //--------------------------------------------
+    //----------------Movimiento C1------------------
+    //--------------------------------------------
+        if(coliM==false){//Si no se elimino un scuttlebug en el movimiento anterior
+        //Movimiento de la copia 1
+            if(sxc1==-1){ //Validamos que el sentido de la copia 1 en x sea -1
+                xc1+=movx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+            }
+            else{//Si no es -1
+                xc1+=movx;//Sumamos
+            }
+
+            if(syc1==-1){ //validamos que el sentido de la copia 1 en y sea -1
+                yc1+=movy*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+            }
+            else{//si no es -1
+                yc1+=movy; //sumamos
+            }
+
+        //Colision
+            if ((xc1==xs1 && yc1==ys1) || (xc1==xs2&&xc1==ys2) || (xc1==xs3&&yc1==ys3)){
+                if(beneficio==0){//Si no existe beneficio
+                    if(xc1==xs1){ //Si fue con S1
+                        vidas1-=2;
+                    }
+                    else if (xc1==xs2){ //Si fue con S2
+                        vidas2-=2;
+                    }
+                    else{
+                        vidas3-=2; //Si fue con S3
+                    }
+
+                }
+                else{ //Si existe beneficio
+                    if(xc1==xs1){ //Si fue con S1
+                        vidas1=0;
+                    }
+                    else if (xc2==xs2){ //Si fue con S2
+                        vidas2=0;
+                    }
+                    else{
+                        vidas3=0; //Si fue con S3
+                    }
+                }
+            //--------------------------------------------
+            //---------Eliminacion de Enemigo-------------
+            //--------------------------------------------
+                if(vidas1==0||vidas2==0||vidas3==0){ //Si elimino
+                    mariox=xc1; //Sincronización de ubicacicón
+                    xc2=xc1;
+                    marioy=yc1;
+                    yc2=yc1;
+                    coliC1=true; //Indicador
+                }
+            }
+        }
+        
+    
+        //colision mario con scuttlebug
+        /*if((mariox!=xs1 || marioy!=ys1) && (mariox!=xs2||marioy!=ys2) && (mariox=!xs3||marioy!=ys3)){ //Si no existe colisión con ningun scuttlebug
+            
+        }
+        else{ //Si existió alguna colisión
+            
+        }*/
+
+    /*
+    
 
         //Colision con la estrella
         //Colision con el scuttlebug m0, m1, m2
