@@ -29,15 +29,18 @@ int main (){
     cin>>sxc2; cin>>syc2;//sentido copia 2
     
     //Validamos los sentidos
-    if(sxm0!=1 || sxm0!=-1 || sym0!=1 || sym0!=-1){ //mario
+    /*if(sxm0!=1 || sxm0!=-1 || sym0!=1 || sym0!=-1){ //mario
+        cout<<"Error mario";
         error=true;
     }
     if(sxc1!=1 || sxc1!=-1 || syc1!=1 || syc1!=-1){ //copia 1
+        cout<<"Error c1";
         error=true;
     }
     if(sxc2!=1 || sxc2!=-1 || syc2!=1 || syc2!=-1){ //copia 2
+        cout<<"Error c2";
         error=true;
-    }
+    }*/
     
     cin>>numS; //numero de scuttlebugs
 
@@ -45,15 +48,15 @@ int main (){
         case 1: 
             cin>>xs1; cin>>ys1; cin>>vidas1;
             xs2=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
-            vidas2=1000;
+            vidas2=-1000;
             xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
-            vidas3=1000;
+            vidas3=-1000;
             break;
         case 2:
             cin>>xs1; cin>>ys1; cin>>vidas1;
             cin>>xs2; cin>>ys2; cin>>vidas2;
             xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
-            vidas3=1000;
+            vidas3=-1000;
             break;
         case 3:
             cin>>xs1; cin>>ys1; cin>>vidas1;
@@ -61,6 +64,7 @@ int main (){
             cin>>xs3; cin>>ys3; cin>>vidas3;
             break;
         default: //Si no se introduce un numero entre 1 y 3 tendremos un error
+            cout<<"Error Scuttlebug";
             error=true;
     }
 
@@ -81,11 +85,10 @@ int main (){
     cout<<Xestrella<<","<<Yestrella<<endl;
     cout<<m<<endl;*/
 
-    if(error==true){
-        cout<<"Error en la entrada";
-    }
-    else{
-    ///*
+    if(error==false){
+        cout<<"sin error";
+        /*
+    //
     //--------------------------------------------
     //------------Bucle de movimiento-------------
     //--------------------------------------------
@@ -297,12 +300,34 @@ int main (){
             coliM=false;
             coliC1=false;
             coliC2=false;
+        } //Fin del bucle
+
+        //--------------------------------------------
+        //----------------Salidas---------------------
+        //--------------------------------------------
+        if(mariox==xc1&& marioy==yc1 && mariox==xc2 && marioy==yc2){ //Si la ubicación es igual
+            cout<<"Perfectamente alineados";
+            cout<<"Posición de Mario: ("<<mariox<<" ,"<<marioy<<")";
+        }
+        else{ //Si no es igual
+            cout<<"Desincronización total\n";
+            cout<<"Posición de Mario: ("<<mariox<<" ,"<<marioy<<")\n";
+            cout<<"Posición de la 1era copia: ("<<xc1<<" ,"<<yc1<<")\n";
+            cout<<"Posición de la 2da copia: ("<<xc2<<" ,"<<yc2<<")\n";
         }
 
-        //Salidas del programa según el final. 
-        //“Perfectamente alineados”. “Desincronización total” “Posición de la 1era copia: ” y/o “Posición de la 2da copia: ”
-        //Posición del Scuttlebug 2: (2,2); Vida=2
-        
+        if(vidas1>0){
+            cout<<"Posición del Scuttlebug 1: ("<<xs1<<","<<ys1<<"); Vida="<<vidas1;
+        }
+        else if(vidas2>0){
+            cout<<"Posición del Scuttlebug 2: ("<<xs2<<","<<ys2<<"); Vida="<<vidas2;
+        }
+        else if(vidas3>0){
+            cout<<"Posición del Scuttlebug 3: ("<<xs3<<","<<ys3<<"); Vida="<<vidas3;
+        }*/
+    }
+    else{
+        cout<<"Error en la entrada";
     }
 
     return 0;
