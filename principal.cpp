@@ -45,14 +45,10 @@ int main (){
     switch (numS){ //Dependiendo del numero de scuttlebugs habrá lectura de sus datos
         case 1: 
             cin>>xs1; cin>>ys1; cin>>vidas1;
-            //xs2=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
-            //vidas2=-1000;
-            //xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
             break;
         case 2:
             cin>>xs1; cin>>ys1; cin>>vidas1;
             cin>>xs2; cin>>ys2; cin>>vidas2;
-            //xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
             break;
         case 3:
             cin>>xs1; cin>>ys1; cin>>vidas1;
@@ -69,20 +65,6 @@ int main (){
     if(m<=0){ //Validar si el numero de movimientos es mayor a cero
         error=true;
     }
-
-    //PRUEBA DE SALIDAS
-    /*cout<<ubix<<","<<ubiy<<endl;
-    cout<<mariox<<","<<marioy<<endl;
-    cout<<sxm0<<","<<sym0<<endl;
-    cout<<sxc1<<","<<syc1<<endl;
-    cout<<sxc2<<","<<syc2<<endl;
-    cout<<numS<<endl;
-    cout<<xs1<<","<<ys1<<","<<vidas1<<endl;
-    cout<<xs2<<","<<ys2<<","<<vidas2<<endl;
-    cout<<xs3<<","<<ys3<<","<<vidas3<<endl;
-    cout<<"error"<<error<<endl;
-    cout<<Xestrella<<","<<Yestrella<<endl;
-    cout<<m<<endl;*/
 
     if(error==false){
     //
@@ -340,17 +322,17 @@ int main (){
             if(coliM==false && coliC1==false){//Si no se elimino un scuttlebug en los movimientos anteriores
             //Movimiento de la copia 2
                 if(sxc2==-1){ //Validamos que el sentido de la copia 1 en x sea -1
-                    xc1+=movx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+                    xc2+=movx*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
                 }
                 else{//Si no es -1
-                    xc1+=movx;//Sumamos
+                    xc2+=movx;//Sumamos
                 }
 
-                if(syc1==-1){ //validamos que el sentido de la copia 1 en y sea -1
-                    yc1+=movy*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
+                if(syc2==-1){ //validamos que el sentido de la copia 1 en y sea -1
+                    yc2+=movy*(-1); //Hacemos que el movimiento sea en ese sentido y sumamos
                 }
                 else{//si no es -1
-                    yc1+=movy; //sumamos
+                    yc2+=movy; //sumamos
                 }
 
             //--------------------------------------------
