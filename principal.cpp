@@ -15,7 +15,8 @@ int main (){
     int m; //Numero de movimientos que tendrán
     float movx, movy, mariox, marioy; //El movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
     
-    bool coliM=false, coliC1=false, coliC2=false, error=false; //Indicador de colision de Mario y Copias, indicador de error
+    bool coliM=false, coliC1=false, coliC2=false, error=false; //Indicador de colision de Mario y Copias para condicionar la ejecucion de movimientos, indicador de error
+    bool cols1=false, cols2=false, cols3=false; //Indicadores para validar si la colision con el enemigo lo llevo a la muerte y por ende cerrar los movimientos
 
 //--------------------------------------------
 //----------Lectura de variables--------------
@@ -29,34 +30,29 @@ int main (){
     cin>>sxc2; cin>>syc2;//sentido copia 2
     
     //Validamos los sentidos
-    /*if(sxm0!=1 || sxm0!=-1 || sym0!=1 || sym0!=-1){ //mario
-        cout<<"Error mario";
+    if((sxm0!=1 && sxm0!=-1) || (sym0!=1 && sym0!=-1)){//mario
+        error=true;  
+    }
+    if((sxc1!=1 && sxc1!=-1) || (syc1!=1 && syc1!=-1)){ //copia 1
         error=true;
     }
-    if(sxc1!=1 || sxc1!=-1 || syc1!=1 || syc1!=-1){ //copia 1
-        cout<<"Error c1";
+    if((sxc2!=1 && sxc2!=-1) || (syc2!=1 && syc2!=-1)){//copia 2
         error=true;
     }
-    if(sxc2!=1 || sxc2!=-1 || syc2!=1 || syc2!=-1){ //copia 2
-        cout<<"Error c2";
-        error=true;
-    }*/
     
     cin>>numS; //numero de scuttlebugs
 
     switch (numS){ //Dependiendo del numero de scuttlebugs habrá lectura de sus datos
         case 1: 
             cin>>xs1; cin>>ys1; cin>>vidas1;
-            xs2=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
-            vidas2=-1000;
-            xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
-            vidas3=-1000;
+            //xs2=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
+            //vidas2=-1000;
+            //xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
             break;
         case 2:
             cin>>xs1; cin>>ys1; cin>>vidas1;
             cin>>xs2; cin>>ys2; cin>>vidas2;
-            xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
-            vidas3=-1000;
+            //xs3=999999*999;//Asignación evita que exista conflicto al evaluar la posicion de mario con scuttlebug inexistentes
             break;
         case 3:
             cin>>xs1; cin>>ys1; cin>>vidas1;
@@ -64,12 +60,15 @@ int main (){
             cin>>xs3; cin>>ys3; cin>>vidas3;
             break;
         default: //Si no se introduce un numero entre 1 y 3 tendremos un error
-            cout<<"Error Scuttlebug";
             error=true;
     }
 
     cin>>Xestrella; cin>>Yestrella; //posicion de la estrella
     cin>>m;
+
+    if(m<=0){ //Validar si el numero de movimientos es mayor a cero
+        error=true;
+    }
 
     //PRUEBA DE SALIDAS
     /*cout<<ubix<<","<<ubiy<<endl;
@@ -86,8 +85,6 @@ int main (){
     cout<<m<<endl;*/
 
     if(error==false){
-        cout<<"sin error";
-        /*
     //
     //--------------------------------------------
     //------------Bucle de movimiento-------------
@@ -134,42 +131,96 @@ int main (){
         //--------------------------------------------
         //----------------ColisionMario---------------
         //--------------------------------------------
-            if ((mariox==xs1 && marioy==ys1) || (mariox==xs2&&marioy==ys2) || (mariox==xs3&&marioy==ys3)){
-                if(beneficio==0){//Si no existe beneficio
-                    if(mariox==xs1){ //Si fue con S1
-                        vidas1-=2;
+            if(numS>=1){
+                if (mariox==xs1 && marioy==ys1){
+                    if(beneficio<=0){//Si no existe beneficio
+                        if(mariox==xs1){ //Si fue con S1
+                            vidas1-=2;
+                            cols1=true;//Indicador de colision
+                        } 
                     }
-                    else if (mariox==xs2){ //Si fue con S2
-                        vidas2-=2;
+                    else{ //Si existe beneficio
+                        if(mariox==xs1){ //Si fue con S1
+                            vidas1=0;
+                            cols1=true;
+                        }
                     }
-                    else{
-                        vidas3-=2; //Si fue con S3
-                    }
-
                 }
-                else{ //Si existe beneficio
-                    if(mariox==xs1){ //Si fue con S1
-                        vidas1=0;
+                if(numS>=2){
+                    if (mariox==xs2 && marioy==ys2){
+                        if(beneficio<=0){//Si no existe beneficio
+                            if(mariox==xs2){ //Si fue con S1
+                                vidas2-=2;
+                                cols2=true;//Indicador de colision
+                            } 
+                        }
+                        else{ //Si existe beneficio
+                            if(mariox==xs2){ //Si fue con S1
+                                vidas2=0;
+                                cols2=true;
+                            }
+                        }
+                    } 
+                }
+                if(numS==3){
+                    if (mariox==xs3 && marioy==ys3){
+                        if(beneficio<=0){//Si no existe beneficio
+                            if(mariox==xs3){ //Si fue con S1
+                                vidas3-=2;
+                                cols3=true;//Indicador de colision
+                            } 
+                        }
+                        else{ //Si existe beneficio
+                            if(mariox==xs3){ //Si fue con S1
+                                vidas3=0;
+                                cols3=true;
+                            }
+                        }
                     }
-                    else if (mariox==xs2){ //Si fue con S2
-                        vidas2=0;
-                    }
-                    else{
-                        vidas3=0; //Si fue con S3
-                    }  
                 }
 
             //--------------------------------------------
             //---------Eliminacion de Enemigo-------------
             //--------------------------------------------
-                if(vidas1==0||vidas2==0||vidas3==0){
-                    xc1=mariox; //Sincronización de ubicacicón
-                    xc2=mariox;
-                    yc1=marioy;
-                    yc2=marioy;
-                    coliM=true;
+                if(cols1==true){
+                    if(vidas1<=0){
+                        xc1=mariox; //Sincronización de ubicacicón
+                        xc2=mariox;
+                        yc1=marioy;
+                        yc2=marioy;
+                        coliM=true;   
+                    }
+                    cols1=false;
+                }
+                if(cols2==true){
+                    if(vidas2<=0){
+                        xc1=mariox; //Sincronización de ubicacicón
+                        xc2=mariox;
+                        yc1=marioy;
+                        yc2=marioy;
+                        coliM=true;   
+                    }
+                    cols2=false;
+                }
+                if(cols3==true){
+                    if(vidas3<=0){
+                        xc1=mariox; //Sincronización de ubicacicón
+                        xc2=mariox;
+                        yc1=marioy;
+                        yc2=marioy;
+                        coliM=true;   
+                    }
+                    cols3=false;
                 }
             }
+        
+        //--------------------------------------------
+        //---------Colision con la estrella-----------
+        //--------------------------------------------
+            if (mariox==Xestrella && marioy==Yestrella){
+                beneficio+=2;
+            }
+
         //--------------------------------------------
         //----------------Movimiento C1------------------
         //--------------------------------------------
@@ -188,44 +239,100 @@ int main (){
                 else{//si no es -1
                     yc1+=movy; //sumamos
                 }
-
-            //Colision
-                if ((xc1==xs1 && yc1==ys1) || (xc1==xs2&&xc1==ys2) || (xc1==xs3&&yc1==ys3)){
-                    if(beneficio==0){//Si no existe beneficio
-                        if(xc1==xs1){ //Si fue con S1
-                            vidas1-=1;
+            //--------------------------------------------
+            //--------------Colision C1------------------
+            //--------------------------------------------
+                if(numS>=1){
+                    if (xc1==xs1 && yc1==ys1){
+                        if(beneficio<=0){//Si no existe beneficio
+                            if(xc1==xs1){ //Si fue con S1
+                                vidas1-=1;
+                                cols1=true;//Indicador de colision
+                            } 
                         }
-                        else if (xc1==xs2){ //Si fue con S2
-                            vidas2-=1;
-                        }
-                        else{
-                            vidas3-=1; //Si fue con S3
-                        }
-
-                    }
-                    else{ //Si existe beneficio
-                        if(xc1==xs1){ //Si fue con S1
-                            vidas1=0;
-                        }
-                        else if (xc1==xs2){ //Si fue con S2
-                            vidas2=0;
-                        }
-                        else{
-                            vidas3=0; //Si fue con S3
+                        else{ //Si existe beneficio
+                            if(xc1==xs1){ //Si fue con S1
+                                vidas1=0;
+                                cols1=true;
+                            }
                         }
                     }
-                //--------------------------------------------
-                //---------Eliminacion de Enemigo-------------
-                //--------------------------------------------
-                    if(vidas1==0||vidas2==0||vidas3==0){ //Si elimino
-                        mariox=xc1; //Sincronización de ubicacicón
-                        xc2=xc1;
-                        marioy=yc1;
-                        yc2=yc1;
-                        coliC1=true; //Indicador
+                    if(numS>=2){
+                        if (xc1==xs2 && yc1==ys2){
+                            if(beneficio<=0){//Si no existe beneficio
+                                if(xc1==xs2){ //Si fue con S1
+                                    vidas2-=1;
+                                    cols2=true;//Indicador de colision
+                                } 
+                            }
+                            else{ //Si existe beneficio
+                                if(xc1==xs2){ //Si fue con S1
+                                    vidas2=0;
+                                    cols2=true;
+                                }
+                            }
+                        } 
+                    }
+                    if(numS==3){
+                        if (xc1==xs3 && yc1==ys3){
+                            if(beneficio<=0){//Si no existe beneficio
+                                if(xc1==xs3){ //Si fue con S1
+                                    vidas3-=1;
+                                    cols3=true;//Indicador de colision
+                                } 
+                            }
+                            else{ //Si existe beneficio
+                                if(xc1==xs3){ //Si fue con S1
+                                    vidas3=0;
+                                    cols3=true;
+                                }
+                            }
+                        }
+                    }
+            //--------------------------------------------
+            //---------Eliminacion de Enemigo-------------
+            //--------------------------------------------
+                if(cols1==true){
+                        if(vidas1<=0){
+                            mariox=xc1; //Sincronización de ubicacicón
+                            xc2=xc1;
+                            marioy=yc1;
+                            yc2=yc1;
+                            coliC1=true;   
+                        }
+                        cols1=false;
+                    }
+                    if(cols2==true){
+                        if(vidas2<=0){
+                            mariox=xc1; //Sincronización de ubicacicón
+                            xc2=xc1;
+                            marioy=yc1;
+                            yc2=yc1;
+                            coliC1=true;   
+                        }
+                        cols2=false;
+                    }
+                    if(cols3==true){
+                        if(vidas3<=0){
+                            mariox=xc1; //Sincronización de ubicacicón
+                            xc2=xc1;
+                            marioy=yc1;
+                            yc2=yc1;
+                            coliC1=true;   
+                        }
+                        cols3=false;
                     }
                 }
+                //--------------------------------------------
+                //---------Colision con la estrella-----------
+                //--------------------------------------------
+                if (xc1==Xestrella && yc1==Yestrella){
+                    beneficio+=2;
+                }
             }
+
+            
+            
             
         //--------------------------------------------
         //----------------Movimiento C2--------------
@@ -246,41 +353,95 @@ int main (){
                     yc1+=movy; //sumamos
                 }
 
-            //Colision
-                if ((xc2==xs1 && yc2==ys1) || (xc2==xs2&&xc2==ys2) || (xc2==xs3&&yc2==ys3)){
-                    if(beneficio==0){//Si no existe beneficio
-                        if(xc2==xs1){ //Si fue con S1
-                            vidas1-=1;
+            //--------------------------------------------
+            //--------------Colision C2------------------
+            //--------------------------------------------
+                if(numS>=1){
+                    if (xc2==xs1 && yc2==ys1){
+                        if(beneficio<=0){//Si no existe beneficio
+                            if(xc2==xs1){ //Si fue con S1
+                                vidas1-=1;
+                                cols1=true;//Indicador de colision
+                            } 
                         }
-                        else if (xc2==xs2){ //Si fue con S2
-                            vidas2-=1;
+                        else{ //Si existe beneficio
+                            if(xc2==xs1){ //Si fue con S1
+                                vidas1=0;
+                                cols1=true;
+                            }
                         }
-                        else{
-                            vidas3-=1; //Si fue con S3
-                        }
-
                     }
-                    else{ //Si existe beneficio
-                        if(xc2==xs1){ //Si fue con S1
-                            vidas1=0;
-                        }
-                        else if (xc2==xs2){ //Si fue con S2
-                            vidas2=0;
-                        }
-                        else{
-                            vidas3=0; //Si fue con S3
+                    if(numS>=2){
+                        if (xc2==xs2 && yc2==ys2){
+                            if(beneficio<=0){//Si no existe beneficio
+                                if(xc2==xs2){ //Si fue con S1
+                                    vidas2-=1;
+                                    cols2=true;//Indicador de colision
+                                } 
+                            }
+                            else{ //Si existe beneficio
+                                if(xc2==xs2){ //Si fue con S1
+                                    vidas2=0;
+                                    cols2=true;
+                                }
+                            }
+                        } 
+                    }
+                    if(numS==3){
+                        if (xc2==xs3 && yc2==ys3){
+                            if(beneficio<=0){//Si no existe beneficio
+                                if(xc2==xs3){ //Si fue con S1
+                                    vidas3-=1;
+                                    cols3=true;//Indicador de colision
+                                } 
+                            }
+                            else{ //Si existe beneficio
+                                if(xc2==xs3){ //Si fue con S1
+                                    vidas3=0;
+                                    cols3=true;
+                                }
+                            }
                         }
                     }
                 //--------------------------------------------
                 //---------Eliminacion de Enemigo-------------
                 //--------------------------------------------
-                    if(vidas1==0||vidas2==0||vidas3==0){ //Si elimino
-                        mariox=xc2; //Sincronización de ubicacicón
-                        xc1=xc2;
-                        marioy=yc2;
-                        yc1=yc2;
-                        coliC2=true; //Indicador
+                    if(cols1==true){
+                        if(vidas1<=0){
+                            mariox=xc2; //Sincronización de ubicacicón
+                            xc1=xc2;
+                            marioy=yc2;
+                            yc1=yc2;
+                            coliC2=true;   
+                        }
+                        cols1=false;
                     }
+                    if(cols2==true){
+                        if(vidas2<=0){
+                            mariox=xc2; //Sincronización de ubicacicón
+                            xc1=xc2;
+                            marioy=yc2;
+                            yc1=yc2;
+                            coliC2=true;   
+                        }
+                        cols2=false;
+                    }
+                    if(cols3==true){
+                        if(vidas3<=0){
+                            mariox=xc2; //Sincronización de ubicacicón
+                            xc1=xc2;
+                            marioy=yc2;
+                            yc1=yc2;
+                            coliC2=true;   
+                        }
+                        cols3=false;
+                    }
+                }
+            //--------------------------------------------
+            //---------Colision con la estrella-----------
+            //--------------------------------------------
+                if (xc2==Xestrella && yc2==Yestrella){
+                    beneficio+=2;
                 }
             }
 
@@ -289,12 +450,6 @@ int main (){
                 beneficio--;
             }
 
-        //--------------------------------------------
-        //---------Colision con la estrella-----------
-        //--------------------------------------------
-            if ((mariox==Xestrella && marioy==Yestrella) || (xc1==Xestrella && yc1==Yestrella) || (xc2==Xestrella && yc2==Yestrella)){
-                beneficio+=2;
-            }
 
         //Reinicio de colisiones
             coliM=false;
@@ -306,8 +461,8 @@ int main (){
         //----------------Salidas---------------------
         //--------------------------------------------
         if(mariox==xc1&& marioy==yc1 && mariox==xc2 && marioy==yc2){ //Si la ubicación es igual
-            cout<<"Perfectamente alineados";
-            cout<<"Posición de Mario: ("<<mariox<<" ,"<<marioy<<")";
+            cout<<"Perfectamente alineados\n";
+            cout<<"Posición de Mario: ("<<mariox<<" ,"<<marioy<<")\n";
         }
         else{ //Si no es igual
             cout<<"Desincronización total\n";
@@ -317,14 +472,14 @@ int main (){
         }
 
         if(vidas1>0){
-            cout<<"Posición del Scuttlebug 1: ("<<xs1<<","<<ys1<<"); Vida="<<vidas1;
+            cout<<"Posición del Scuttlebug 1: ("<<xs1<<","<<ys1<<"); Vida="<<vidas1<<endl;
         }
         else if(vidas2>0){
-            cout<<"Posición del Scuttlebug 2: ("<<xs2<<","<<ys2<<"); Vida="<<vidas2;
+            cout<<"Posición del Scuttlebug 2: ("<<xs2<<","<<ys2<<"); Vida="<<vidas2<<endl;
         }
         else if(vidas3>0){
-            cout<<"Posición del Scuttlebug 3: ("<<xs3<<","<<ys3<<"); Vida="<<vidas3;
-        }*/
+            cout<<"Posición del Scuttlebug 3: ("<<xs3<<","<<ys3<<"); Vida="<<vidas3<<endl;
+        }
     }
     else{
         cout<<"Error en la entrada";
