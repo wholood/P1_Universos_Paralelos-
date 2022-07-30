@@ -16,7 +16,7 @@ int main (){
     float movx, movy, mariox, marioy; //El movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
     
     bool coliM=false, coliC1=false, coliC2=false, error=false; //Indicador de colision de Mario y Copias para condicionar la ejecucion de movimientos, indicador de error
-    bool cols1=false, cols2=false, cols3=false; //Indicadores para validar si la colision con el enemigo lo llevo a la muerte y por ende cerrar los movimientos
+    bool cols1=false, cols2=false, cols3=false, estrellacol=false; //Indicadores para validar si la colision con el enemigo lo llevo a la muerte y por ende cerrar los movimientos
 
 //--------------------------------------------
 //----------Lectura de variables--------------
@@ -199,8 +199,9 @@ int main (){
         //--------------------------------------------
         //---------Colision con la estrella-----------
         //--------------------------------------------
-            if (mariox==Xestrella && marioy==Yestrella){
+            if (estrellacol==false && mariox==Xestrella && marioy==Yestrella){
                 beneficio+=2;
+                estrellacol=true;
             }
 
         //--------------------------------------------
@@ -308,8 +309,9 @@ int main (){
                 //--------------------------------------------
                 //---------Colision con la estrella-----------
                 //--------------------------------------------
-                if (xc1==Xestrella && yc1==Yestrella){
+                if (estrellacol==false && xc1==Xestrella && yc1==Yestrella){
                     beneficio+=2;
+                    estrellacol=true;
                 }
             }
 
@@ -422,8 +424,9 @@ int main (){
             //--------------------------------------------
             //---------Colision con la estrella-----------
             //--------------------------------------------
-                if (xc2==Xestrella && yc2==Yestrella){
+                if (estrellacol==false && xc2==Xestrella && yc2==Yestrella){
                     beneficio+=2;
+                    estrellacol=true;
                 }
             }
 
