@@ -4,16 +4,16 @@ using namespace std;
 
 int main (){
     int sxm0, sxc1, sxc2, sym0, syc1, syc2; //sentido x y Y de mario y sus copias 1 y 2
-    float ubix, ubiy, xc1, xc2, yc1, yc2; //Ubicacion inicial de los 3 marios y Sentido X Y de cada mario
+    int ubix, ubiy, xc1, xc2, yc1, yc2; //Ubicacion inicial de los 3 marios y Sentido X Y de cada mario
 
     int numS, vidas1, vidas2, vidas3; //Numero de scuttlebugs (Max3) y sus datos (x y vida)
-    float xs1, xs2, xs3, ys1, ys2, ys3; //coordenadas scuttlebugs
+    int xs1, xs2, xs3, ys1, ys2, ys3; //coordenadas scuttlebugs
 
-    float Xestrella, Yestrella; //Ubicación x y de la estrella y
+    int Xestrella, Yestrella; //Ubicación x y de la estrella y
     int beneficio; // el contador de beneficio
 
     int m; //Numero de movimientos que tendrán
-    float movx, movy, mariox, marioy; //El movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
+    int movx, movy, mariox, marioy; //El movimiento a realizar, su desgloce y la copia para usar con el sentido de mario
     
     bool coliM=false, coliC1=false, coliC2=false, error=false; //Indicador de colision de Mario y Copias para condicionar la ejecucion de movimientos, indicador de error
     bool cols1=false, cols2=false, cols3=false, estrellacol=false; //Indicadores para validar si la colision con el enemigo lo llevo a la muerte y por ende cerrar los movimientos
