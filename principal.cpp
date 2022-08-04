@@ -6,7 +6,7 @@ int main (){
     int sxm0, sxc1, sxc2, sym0, syc1, syc2; //sentido x y Y de mario y sus copias 1 y 2
     int ubix, ubiy, xc1, xc2, yc1, yc2; //Ubicacion inicial de los 3 marios y Sentido X Y de cada mario
 
-    int numS, vidas1, vidas2, vidas3; //Numero de scuttlebugs (Max3) y sus datos (x y vida)
+    int numS, vidas1=0, vidas2=0, vidas3=0; //Numero de scuttlebugs (Max3) y sus datos (x y vida)
     int xs1, xs2, xs3, ys1, ys2, ys3; //coordenadas scuttlebugs
 
     int Xestrella, Yestrella; //Ubicación x y de la estrella y
@@ -103,14 +103,14 @@ int main (){
                     syc2*=(-1); 
                 }
             }
-            else if(mariox>=0 && marioy<0){ //Validamos que el mario original haya quedado en el 3er cuadrante
+            else if(mariox>=0 && marioy<0){ //Validamos que el mario original haya quedado en el 4to cuadrante
                 sxc1*=(-1); //Cambiamos solo el sentido en X de sus copias
                 sxc2*=(-1);
                 syc1*=(-1); //Cambiamos solo el sentido en y de sus copias
                 syc2*=(-1);
             }
 
-        //--------------------------------------------
+        //--------------------------------------------R
         //----------------ColisionMario---------------
         //--------------------------------------------
             if(numS>=1){
